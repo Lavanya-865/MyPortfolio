@@ -1,20 +1,33 @@
 import React from 'react';
 
-const SectionDivider: React.FC = () => (
-  <div className="relative my-20 flex items-center justify-center">
-    {/* Container that limits width to center */}
-    <div className="relative w-2/3 sm:w-1/2 h-6 flex items-center justify-center overflow-hidden">
-      
-      {/* Main white core beam */}
-      <div className="absolute w-full h-[1px] bg-white opacity-90" />
-
-      {/* Blurred glow aura */}
-      <div className="absolute w-full h-[2px] bg-white/70 blur-sm animate-pulse" />
-
-      {/* Wavy shimmer motion overlay */}
-      <div className="absolute w-full h-[1px] bg-gradient-to-r from-transparent via-white to-transparent blur-[2px] opacity-80 animate-waveMotion" />
+const SectionDivider: React.FC = () => {
+  return (
+    <div className="relative my-20 flex justify-center">
+      <svg
+        viewBox="0 0 600 40"
+        className="w-[70%] h-6"
+        preserveAspectRatio="none"
+      >
+        <defs>
+          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="2" result="coloredBlur" />
+            <feMerge>
+              <feMergeNode in="coloredBlur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+        <path
+          d="M 0 20 Q 150 0 300 20 T 600 20"
+          fill="none"
+          stroke="white"
+          strokeWidth="1.5"
+          filter="url(#glow)"
+          className="animate-[waveMotion_4s_ease-in-out_infinite]"
+        />
+      </svg>
     </div>
-  </div>
-);
+  );
+};
 
 export default SectionDivider;
