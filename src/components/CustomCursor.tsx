@@ -1,41 +1,66 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 
-const SectionDivider: React.FC = () => {
+const CustomCursor: React.FC = () => {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
+  const [isMobile, setIsMobile] = useState(true);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768); // Only show on desktop
+    const updateMousePosition = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+
+    const handleMouseOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.closest('a, button, [data-hover]')) {
+        setIsHovering(true);
+      } else {
+        setIsHovering(false);
+      }
+    };
+
+    window.addEventListener('mousemove', updateMousePosition);
+    window.addEventListener('mouseover', handleMouseOver);
+
+    return () => {
+      window.removeEventListener('mousemove', updateMousePosition);
+      window.removeEventListener('mouseover', handleMouseOver);
+    };
+  }, []);
+
+  if (isMobile) return null; // Skip rendering on mobile
+
   return (
-    <div className="relative my-20 flex justify-center pointer-events-none">
-      <svg
-        viewBox="0 0 600 40"
-        className="w-[70%] h-8"
-        preserveAspectRatio="none"
-      >
-        <defs>
-          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="3" result="coloredBlur" />
-            <feMerge>
-              <feMergeNode in="coloredBlur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
-
-        <path
-          d="M 0 20 Q 150 0 300 20 T 600 20"
-          fill="none"
-          stroke="white"
-          strokeWidth="1.5"
-          filter="url(#glow)"
-        >
-          <animateTransform
-            attributeName="transform"
-            type="translate"
-            values="0,0; 2,0; 0,0"
-            dur="3s"
-            repeatCount="indefinite"
-          />
-        </path>
-      </svg>
-    </div>
+    <>
+      <motion.div
+        className="fixed top-0 left-0 w-2 h-2 bg-white rounded-full pointer-events-none z-50 mix-blend-difference"
+        animate={{
+          x: mousePosition.x - 1,
+          y: mousePosition.y - 1,
+          scale: isHovering ? 1.5 : 1,
+        }}
+        transition={{
+          type: 'spring',
+          stiffness: 500,
+          damping: 28,
+        }}
+      />
+      <motion.div
+        className="fixed top-0 left-0 w-6 h-6 border border-white/30 rounded-full pointer-events-none z-50"
+        animate={{
+          x: mousePosition.x - 3,
+          y: mousePosition.y - 3,
+        }}
+        transition={{
+          type: 'spring',
+          stiffness: 150,
+          damping: 15,
+        }}
+      />
+    </>
   );
 };
 
-export default SectionDivider;
+export default CustomCursor;
