@@ -51,7 +51,7 @@ const CustomCursor: React.FC = () => {
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: white;
+            background: cyan;
             pointer-events: none;
             z-index: 9999;
             mix-blend-mode: difference;
