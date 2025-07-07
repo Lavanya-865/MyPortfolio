@@ -2,9 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  cursor: none !important;
+@media (min-width: 768px) {
+  * {
+    cursor: none !important;
+  }
+
+  a, button, [data-hover] {
+    cursor: none !important;
+  }
 }
+
 
 body {
   font-family: 'Inter', sans-serif;
