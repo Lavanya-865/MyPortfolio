@@ -32,21 +32,23 @@ const Header: React.FC = () => {
 
   return (
     <motion.header
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-        isScrolled ? 'bg-black/90 backdrop-blur-sm border-b border-white/10' : 'bg-transparent'
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled
+          ? 'bg-black/90 backdrop-blur-sm border-b border-white/10'
+          : 'bg-transparent'
       }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <nav className="container mx-auto px-6 py-4">
+      <nav className="max-w-screen-xl mx-auto px-4 py-3 md:py-4 overflow-x-auto">
         <div className="flex justify-center">
-          <ul className="flex space-x-8">
+          <ul className="flex flex-wrap md:flex-nowrap justify-center gap-x-6 gap-y-2 whitespace-nowrap">
             {navItems.map((item) => (
               <li key={item.id}>
                 <button
                   onClick={() => scrollToSection(item.id)}
-                  className="text-white hover:text-gray-300 transition-all duration-300 relative group"
+                  className="text-white text-sm md:text-base hover:text-gray-300 transition-all duration-300 relative group"
                   data-hover
                 >
                   {item.label}
