@@ -1,54 +1,69 @@
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 
 const CustomCursor: React.FC = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const checkIfMobile = () => {
+    const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
 
-    checkIfMobile();
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
 
-    const updateMousePosition = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+    const cursor = document.createElement('div');
+    cursor.id = 'custom-cursor-dot';
+    document.body.appendChild(cursor);
+
+    const moveCursor = (e: MouseEvent) => {
+      cursor.style.left = `${e.clientX - 4}px`;
+      cursor.style.top = `${e.clientY - 4}px`;
     };
 
-    window.addEventListener('mousemove', updateMousePosition);
-    window.addEventListener('resize', checkIfMobile);
+    const handleHover = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.closest('a, button, [data-hover]')) {
+        cursor.style.transform = 'scale(1.6)';
+      } else {
+        cursor.style.transform = 'scale(1)';
+      }
+    };
+
+    document.addEventListener('mousemove', moveCursor);
+    document.addEventListener('mouseover', handleHover);
 
     return () => {
-      window.removeEventListener('mousemove', updateMousePosition);
-      window.removeEventListener('resize', checkIfMobile);
+      document.removeEventListener('mousemove', moveCursor);
+      document.removeEventListener('mouseover', handleHover);
+      cursor.remove();
     };
   }, []);
 
   if (isMobile) return null;
 
   return (
-    <motion.div
-      className="fixed top-0 left-0 w-2.5 h-2.5 rounded-full pointer-events-none z-[9999]"
-      style={{
-        backgroundColor: 'white',
-        boxShadow: `
-          0 0 6px rgba(255, 255, 255, 0.8),
-          0 0 12px rgba(255, 255, 255, 0.5),
-          0 0 20px rgba(255, 255, 255, 0.3)
-        `,
-        mixBlendMode: 'difference',
-      }}
-      animate={{
-        x: mousePosition.x - 5,
-        y: mousePosition.y - 5,
-      }}
-      transition={{
-        type: 'tween',
-        duration: 0.03,
-        ease: 'linear',
-      }}
-    />
+    <>
+      <style>
+        {`
+          * { cursor: none !important; }
+          #custom-cursor-dot {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: white;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.12s ease-out;
+            box-shadow:
+              0 0 6px rgba(255, 255, 255, 0.8),
+              0 0 14px rgba(255, 255, 255, 0.6),
+              0 0 25px rgba(255, 255, 255, 0.3);
+          }
+        `}
+      </style>
+    </>
   );
 };
 
