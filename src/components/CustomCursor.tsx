@@ -48,8 +48,8 @@ const CustomCursor: React.FC = () => {
           * { cursor: none !important; }
           #custom-cursor-dot {
             position: fixed;
-            width: 4px;
-            height: 4px;
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
             background: cyan;
             pointer-events: none;
