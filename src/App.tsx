@@ -14,6 +14,7 @@ import SectionDivider from './components/SectionDivider';
 function App() {
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
+      <CustomCursor />
       <ParticleBackground />
       <Header />
         <main>

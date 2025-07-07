@@ -8,6 +8,7 @@ const CustomCursor: React.FC = () => {
 
   useEffect(() => {
     setIsMobile(window.innerWidth < 768); // Only show on desktop
+    
     const updateMousePosition = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
@@ -21,12 +22,18 @@ const CustomCursor: React.FC = () => {
       }
     };
 
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
     window.addEventListener('mousemove', updateMousePosition);
     window.addEventListener('mouseover', handleMouseOver);
+    window.addEventListener('resize', handleResize);
 
     return () => {
       window.removeEventListener('mousemove', updateMousePosition);
       window.removeEventListener('mouseover', handleMouseOver);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -34,29 +41,49 @@ const CustomCursor: React.FC = () => {
 
   return (
     <>
+      {/* Main small glowing cursor dot */}
       <motion.div
-        className="fixed top-0 left-0 w-2 h-2 bg-white rounded-full pointer-events-none z-50 mix-blend-difference"
-        animate={{
-          x: mousePosition.x - 1,
-          y: mousePosition.y - 1,
-          scale: isHovering ? 1.5 : 1,
+        className="fixed top-0 left-0 w-1.5 h-1.5 bg-white rounded-full pointer-events-none z-50 mix-blend-difference"
+        style={{
+          boxShadow: `
+            0 0 10px rgba(255, 255, 255, 0.8),
+            0 0 20px rgba(255, 255, 255, 0.6),
+            0 0 30px rgba(255, 255, 255, 0.4)
+          `,
         }}
-        transition={{
-          type: 'spring',
-          stiffness: 500,
-          damping: 28,
-        }}
-      />
-      <motion.div
-        className="fixed top-0 left-0 w-6 h-6 border border-white/30 rounded-full pointer-events-none z-50"
         animate={{
           x: mousePosition.x - 3,
           y: mousePosition.y - 3,
+          scale: isHovering ? 1.8 : 1,
         }}
         transition={{
           type: 'spring',
-          stiffness: 150,
-          damping: 15,
+          stiffness: 800,
+          damping: 35,
+          mass: 0.5,
+        }}
+      />
+      
+      {/* Outer glowing ring */}
+      <motion.div
+        className="fixed top-0 left-0 w-4 h-4 border border-white/40 rounded-full pointer-events-none z-40"
+        style={{
+          boxShadow: `
+            0 0 15px rgba(255, 255, 255, 0.3),
+            inset 0 0 15px rgba(255, 255, 255, 0.1)
+          `,
+        }}
+        animate={{
+          x: mousePosition.x - 8,
+          y: mousePosition.y - 8,
+          scale: isHovering ? 2 : 1,
+          opacity: isHovering ? 0.8 : 0.6,
+        }}
+        transition={{
+          type: 'spring',
+          stiffness: 200,
+          damping: 20,
+          mass: 0.3,
         }}
       />
     </>
