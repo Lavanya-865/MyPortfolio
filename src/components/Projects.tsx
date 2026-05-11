@@ -41,7 +41,17 @@ const Projects: React.FC = () => {
       tech: ['Python', 'Gemini API', 'Streamlit', 'Computer Vision'],
       status: 'Featured'
     },
-
+    
+    {
+      title: 'AWS Security Alert Dashboard',
+      description:
+        'Built a serverless cloud security monitoring dashboard using AWS CloudTrail, Lambda, DynamoDB, and SNS to detect anomalies and trigger real-time security alerts.',
+      link: 'https://drive.google.com/file/d/1Kk4KiLxjXMenUEYon7PMzNVghCHGxytF/view?usp=sharing',
+      linkLabel: 'Project Report',
+      tech: ['AWS', 'Lambda', 'CloudTrail', 'DynamoDB', 'SNS'],
+      status: 'Cloud'
+    },
+    
     {
       title: 'FlatSync',
       description:
