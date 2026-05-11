@@ -10,7 +10,7 @@ const Resume: React.FC = () => {
   });
 
   const handleDownload = () => {
-    window.open('https://drive.google.com/file/d/1tMUo4XtO86wwmqhxP3ugFfWyg7MUC_kg/view?usp=drive_link', '_blank');
+    window.open('https://drive.google.com/file/d/1jaFZUoBekzfGOfCsfxu5FNeEJqkIwjWu/view?usp=sharing', '_blank');
   };
 
   return (
